@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dear Lottery Result</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #f4f6f8;
+}
+
+/* HEADER */
+.header {
+    text-align: center;
+    padding: 20px;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.times {
+    margin-top: 6px;
+    font-size: 16px;
+    letter-spacing: 4px;
+}
+
+/* CARD */
+.card {
+    width: 95%;
+    max-width: 480px;
+    margin: 20px auto;
+    background: white;
+    padding: 22px;
+    border-radius: 14px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.12);
+}
+
+/* INPUT */
+.input-box label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.input-box input {
+    width: 100%;
+    padding: 13px;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+/* IMAGE */
+.result-image {
+    margin-top: 15px;
+}
+
+.result-image img {
+    width: 100%;
+    height: auto;
+    max-height: 240px;
+    object-fit: contain;
+    border-radius: 10px;
+    background: #f0f0f0;
+}
+
+/* OUTER FRAME (STYLISH) */
+.outer-frame {
+    margin-top: 25px;
+    padding: 12px;
+    border-radius: 18px;
+    background: linear-gradient(145deg, #cfcfcf, #ffffff);
+    box-shadow:
+        0 12px 35px rgba(0,0,0,0.35),
+        inset 0 3px 6px rgba(255,255,255,0.7),
+        inset 0 -4px 10px rgba(0,0,0,0.25);
+}
+
+/* MACHINE FRAME */
+.machine-frame {
+    border: 5px solid #222;
+    padding: 20px;
+    border-radius: 15px;
+    background: linear-gradient(145deg, #e6e6e6, #ffffff);
+    position: relative;
+}
+
+/* TITLE - ONE LINE */
+.machine-title {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: gold;
+    padding: 5px 18px;
+    font-size: 13px;
+    font-weight: bold;
+    border: 2px solid black;
+    border-radius: 6px;
+    white-space: nowrap; /* ✅ FORCE ONE LINE */
+}
+
+/* MACHINE BODY */
+.machine {
+    background: linear-gradient(to bottom, #f9f9f9, #eaeaea);
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: inset 0 0 12px rgba(0,0,0,0.25);
+}
+
+/* WINDOW */
+.window {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* SLOT (BIGGER) */
+.slot {
+    flex: 1;
+    max-width: 65px;
+    height: 85px;
+    overflow: hidden;
+    border: 3px solid #111;
+    border-radius: 8px;
+    background: linear-gradient(to bottom, #fff, #e6e6e6);
+    position: relative;
+
+    box-shadow: 
+        inset 0 0 10px rgba(0,0,0,0.5),
+        0 4px 8px rgba(0,0,0,0.4);
+}
+
+/* GLASS EFFECT */
+.slot::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    background: linear-gradient(rgba(255,255,255,0.7), transparent);
+}
+
+/* STRIP */
+.strip {
+    position: absolute;
+    width: 100%;
+}
+
+/* NUMBERS */
+.num {
+    height: 85px;
+    line-height: 85px;
+    font-size: 34px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* BUTTON */
+button {
+    margin-top: 22px;
+    width: 100%;
+    padding: 14px;
+    font-size: 18px;
+    background: black;
+    color: white;
+    border: none;
+    border-radius: 8px;
+}
+
+/* MOBILE */
+@media (max-width: 420px) {
+    .slot {
+        height: 70px;
+    }
+    .num {
+        font-size: 26px;
+        line-height: 70px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>Dear Lottery Result Today</h1>
+    <div class="times">1PM 6PM 8PM</div>
+</div>
+
+<div class="card">
+
+    <div class="input-box">
+        <label>Ticket Number</label>
+        <input id="inputValue" placeholder="Enter 5 digit ticket">
+    </div>
+
+    <div class="result-image">
+        <!-- 👉 PUT IMAGE NAME HERE -->
+        <img src="dear.jpg">
+    </div>
+
+    <div class="outer-frame">
+
+        <div class="machine-frame">
+            <div class="machine-title">NAGALAND STATE LOTTERY</div>
+
+            <div class="machine">
+                <div class="window" id="window"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <button onclick="start()">Start Draw</button>
+
+</div>
+
+<script>
+const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ*";
+const windowDiv = document.getElementById("window");
+let strips = [];
+
+for (let i = 0; i < 5; i++) {
+    let slot = document.createElement("div");
+    let strip = document.createElement("div");
+
+    slot.className = "slot";
+    strip.className = "strip";
+
+    for (let r = 0; r < 10; r++) {
+        for (let c of chars) {
+            let d = document.createElement("div");
+            d.className = "num";
+            d.innerText = c;
+            strip.appendChild(d);
+        }
+    }
+
+    slot.appendChild(strip);
+    windowDiv.appendChild(slot);
+    strips.push(strip);
+}
+
+function spinStrip(strip, char, delay) {
+    let pos = 0;
+    let speed = 110;
+
+    let index = chars.indexOf(char);
+    if (index === -1) index = 0;
+
+    let total = strip.children.length * 85;
+
+    let interval = setInterval(() => {
+        pos += speed;
+        strip.style.top = -(pos % total) + "px";
+    }, 20);
+
+    setTimeout(() => {
+        clearInterval(interval);
+        let final = (5 * chars.length + index) * 85;
+        strip.style.transition = "top 1s ease-out";
+        strip.style.top = -final + "px";
+    }, delay);
+}
+
+function start() {
+    let val = document.getElementById("inputValue").value;
+
+    if (val.length !== 5) {
+        alert("Enter 5 characters");
+        return;
+    }
+
+    strips.forEach((s, i) => {
+        s.style.transition = "none";
+        spinStrip(s, val[i], 2200 + i * 500);
+    });
+}
+</script>
+
+</body>
+</html>
